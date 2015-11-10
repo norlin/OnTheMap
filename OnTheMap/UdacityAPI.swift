@@ -19,10 +19,18 @@ class UdacityAPI: HTTP {
     
     struct Methods {
         static let Session = "/session"
+        static let UserData = "/users/"
     }
     
     struct Keys {
         static let ApiKey: String = "API"
+        static let Error: String = "error"
+        static let Session: String = "session"
+        static let SessionId: String = "id"
+        static let Account: String = "account"
+        static let AccountKey: String = "key"
+        static let User: String = "user"
+        static let Nickname: String = "nickname"
     }
     
     /*
@@ -40,14 +48,14 @@ class UdacityAPI: HTTP {
                 }
                 
                 if let data = res as? NSDictionary {
-                    if let err = data.valueForKey("error") as? String {
+                    if let err = data.valueForKey(UdacityAPI.Keys.Error) as? String {
                         cb(success: false, msg: err)
                         return
                     }
-                    let session = data.valueForKey("session") as! NSDictionary
-                    self.session_id = session.valueForKey("id") as? String
-                    let account = data.valueForKey("account") as! NSDictionary
-                    self.account_key = account.valueForKey("key") as? String
+                    let session = data.valueForKey(UdacityAPI.Keys.Session) as! NSDictionary
+                    self.session_id = session.valueForKey(UdacityAPI.Keys.SessionId) as? String
+                    let account = data.valueForKey(UdacityAPI.Keys.Account) as! NSDictionary
+                    self.account_key = account.valueForKey(UdacityAPI.Keys.AccountKey) as? String
                     if (self.session_id != nil && self.account_key != nil){
                         cb(success: true, msg: "Success")
                     } else {
@@ -90,6 +98,15 @@ class UdacityAPI: HTTP {
         }
     }
     
+    func userData(completionHandler: (result: AnyObject?, error: NSError?) -> Void){
+        guard let user_id = self.account_key else {
+            completionHandler(result: nil, error: HTTP.Error("UdacityAPI.userData", code: 2, msg: "self.account_key == nil"))
+            return
+        }
+        
+        let url = UdacityAPI.Methods.UserData + user_id
+        self.get(url, completionHandler: completionHandler)
+    }
     
     
     /*

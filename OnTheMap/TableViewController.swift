@@ -11,11 +11,23 @@ import UIKit
 class TableViewController: UIViewController, UITableViewDataSource, UITableViewDelegate {
 
     @IBOutlet var tableView: GSView!
-    
-    let udacityAPI = UdacityAPI.sharedInstance()
+    @IBOutlet weak var locationsTable: UITableView!
+    let parseAPI = ParseAPI.sharedInstance()
+    var locations: [StudentLocation]?
     
     override func viewDidLoad() {
         super.viewDidLoad()
+        parseAPI.getLocations { (data, error) -> Void in
+            guard let data = data else {
+                print(error)
+                return
+            }
+            
+            self.locations = data
+            dispatch_async(dispatch_get_main_queue()){
+                self.locationsTable.reloadData()
+            }
+        }
     }
     
     override func viewWillAppear(animated: Bool) {
@@ -35,7 +47,11 @@ class TableViewController: UIViewController, UITableViewDataSource, UITableViewD
     }
     
     func tableView(tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        return 3
+        guard let locations = self.locations else {
+            return 0
+        }
+        
+        return locations.count
     }
     
     func tableView(tableView: UITableView, cellForRowAtIndexPath indexPath: NSIndexPath) -> UITableViewCell {

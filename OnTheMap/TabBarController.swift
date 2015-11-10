@@ -16,6 +16,15 @@ class TabBarController: UITabBarController {
     
     override func viewDidLoad() {
         logoutButton = UIBarButtonItem(title: "Logout", style: UIBarButtonItemStyle.Plain, target: self, action: "logout:")
+        udacityAPI.userData { (result, error) -> Void in
+            if let user = result?.valueForKey(UdacityAPI.Keys.User) {
+                if let nickname = user.valueForKey(UdacityAPI.Keys.Nickname) as? String {
+                    dispatch_async(dispatch_get_main_queue()){
+                        self.navigationItem.title = "Hi, \(nickname)!"
+                    }
+                }
+            }
+        }
     }
     
     override func viewWillAppear(animated: Bool) {

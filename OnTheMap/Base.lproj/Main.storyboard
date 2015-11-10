@@ -211,14 +211,15 @@
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                         <constraints>
                             <constraint firstAttribute="trailing" secondItem="Krn-Ag-KzT" secondAttribute="trailing" id="4gc-Nj-MI9"/>
-                            <constraint firstItem="qUZ-SL-Nan" firstAttribute="top" secondItem="Krn-Ag-KzT" secondAttribute="bottom" id="58j-BQ-UyI"/>
+                            <constraint firstItem="qUZ-SL-Nan" firstAttribute="top" secondItem="Krn-Ag-KzT" secondAttribute="bottom" id="LOZ-zB-GTp"/>
                             <constraint firstItem="Krn-Ag-KzT" firstAttribute="leading" secondItem="rjL-ch-wky" secondAttribute="leading" id="Rv5-3K-fxG"/>
-                            <constraint firstItem="Krn-Ag-KzT" firstAttribute="top" secondItem="zot-6s-PSR" secondAttribute="bottom" id="V3H-CG-JlS"/>
+                            <constraint firstItem="Krn-Ag-KzT" firstAttribute="top" secondItem="zot-6s-PSR" secondAttribute="bottom" id="ceS-ur-TSK"/>
                         </constraints>
                     </view>
                     <tabBarItem key="tabBarItem" title="List" id="00z-JZ-fXT"/>
                     <simulatedScreenMetrics key="simulatedDestinationMetrics" type="retina4"/>
                     <connections>
+                        <outlet property="locationsTable" destination="Krn-Ag-KzT" id="Kyy-R3-lf4"/>
                         <outlet property="tableView" destination="rjL-ch-wky" id="izF-WP-9QJ"/>
                     </connections>
                 </viewController>
