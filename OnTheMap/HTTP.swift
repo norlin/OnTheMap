@@ -39,6 +39,7 @@ class HTTP: NSObject {
     
     func request(request: NSURLRequest, completionHandler: (result: AnyObject?, error: NSError?) -> Void) -> NSURLSessionDataTask {
         let _self = self
+        request.valueForHTTPHeaderField("")
         let session = NSURLSession.sharedSession()
         let task = session.dataTaskWithRequest(request) { (data, response, error) in
             guard (error == nil) else {

@@ -7,9 +7,32 @@
 //
 
 import Foundation
+import CoreLocation
 
-struct StudentLocation {
-
+class StudentLocation {
+    var createdAt: String
+    var firstName: String
+    var lastName: String
+    var latitude: CLLocationDegrees
+    var longitude: CLLocationDegrees
+    var mapString: String
+    var mediaURL: String
+    var objectId: String
+    var uniqueKey: String
+    var updatedAt: String
+    
+    init(dict: [String: AnyObject]){
+        createdAt = dict["createdAt"] as! String
+        firstName = dict["firstName"] as! String
+        lastName = dict["lastName"] as! String
+        latitude = dict["latitude"] as! CLLocationDegrees
+        longitude = dict["longitude"] as! CLLocationDegrees
+        mapString = dict["mapString"] as! String
+        mediaURL = dict["mediaURL"] as! String
+        objectId = dict["objectId"] as! String
+        uniqueKey = dict["uniqueKey"] as! String
+        updatedAt = dict["updatedAt"] as! String
+    }
 }
 
 class ParseAPI: HTTP {
@@ -37,12 +60,27 @@ class ParseAPI: HTTP {
     func getLocations(completionHandler: (data: [StudentLocation]?, error: NSError?) -> Void){
         let url = ParseAPI.Methods.StudentLocations
         self.get(url) { (result, error) -> Void in
-            guard let data = result else {
+            guard let data = result as? NSDictionary else {
                 completionHandler(data: nil, error: HTTP.Error("getLocations", code: 1, msg: "Can't fetch locations!"))
                 return
             }
             
-            print(data)
+            if let err = data.valueForKey("error") {
+                completionHandler(data: nil, error: HTTP.Error("getLocations", code: 1, msg: "ParseAPI Error: \(err)"))
+                return
+            }
+            
+            guard let results = data.valueForKey("results") as? [[String: AnyObject]] else {
+                completionHandler(data: nil, error: HTTP.Error("getLocations", code: 1, msg: "Can't parse locations!"))
+                return
+            }
+            
+            var locations = [StudentLocation]()
+            for item in results {
+                locations.append(StudentLocation(dict: item))
+            }
+            
+            completionHandler(data: locations, error: nil)
         }
     }
     
@@ -55,7 +93,7 @@ class ParseAPI: HTTP {
         let nsurl = NSURL(string: urlString)!
         let req = NSMutableURLRequest(URL: nsurl)
         req.addValue(ParseAPI.Constants.AppID, forHTTPHeaderField: "X-Parse-Application-Id")
-        req.addValue(ParseAPI.Constants.ApiKey, forHTTPHeaderField: "X-Parse-REST-API-Ke")
+        req.addValue(ParseAPI.Constants.ApiKey, forHTTPHeaderField: "X-Parse-REST-API-Key")
         return req
     }
     

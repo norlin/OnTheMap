@@ -13,7 +13,7 @@ class TableViewController: UIViewController, UITableViewDataSource, UITableViewD
     @IBOutlet var tableView: GSView!
     @IBOutlet weak var locationsTable: UITableView!
     let parseAPI = ParseAPI.sharedInstance()
-    var locations: [StudentLocation]?
+    var locations = [StudentLocation]()
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -47,15 +47,14 @@ class TableViewController: UIViewController, UITableViewDataSource, UITableViewD
     }
     
     func tableView(tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        guard let locations = self.locations else {
-            return 0
-        }
-        
         return locations.count
     }
     
     func tableView(tableView: UITableView, cellForRowAtIndexPath indexPath: NSIndexPath) -> UITableViewCell {
         let cell = UITableViewCell()
+        let location = locations[indexPath.row]
+        
+        cell.textLabel?.text = "\(location.firstName) \(location.lastName)"
         
         return cell
     }
