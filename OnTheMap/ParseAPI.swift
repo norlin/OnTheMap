@@ -7,33 +7,6 @@
 //
 
 import Foundation
-import CoreLocation
-
-class StudentLocation {
-    var createdAt: String
-    var firstName: String
-    var lastName: String
-    var latitude: CLLocationDegrees
-    var longitude: CLLocationDegrees
-    var mapString: String
-    var mediaURL: String
-    var objectId: String
-    var uniqueKey: String
-    var updatedAt: String
-    
-    init(dict: [String: AnyObject]){
-        createdAt = dict["createdAt"] as! String
-        firstName = dict["firstName"] as! String
-        lastName = dict["lastName"] as! String
-        latitude = dict["latitude"] as! CLLocationDegrees
-        longitude = dict["longitude"] as! CLLocationDegrees
-        mapString = dict["mapString"] as! String
-        mediaURL = dict["mediaURL"] as! String
-        objectId = dict["objectId"] as! String
-        uniqueKey = dict["uniqueKey"] as! String
-        updatedAt = dict["updatedAt"] as! String
-    }
-}
 
 class ParseAPI: HTTP {
     var session_id: String?
@@ -57,7 +30,7 @@ class ParseAPI: HTTP {
     API Methods
     */
     
-    func getLocations(completionHandler: (data: [StudentLocation]?, error: NSError?) -> Void){
+    func getLocations(completionHandler: (data: [StudentInformation]?, error: NSError?) -> Void){
         let url = ParseAPI.Methods.StudentLocations
         self.get(url) { (result, error) -> Void in
             guard let data = result as? NSDictionary else {
@@ -75,10 +48,12 @@ class ParseAPI: HTTP {
                 return
             }
             
-            var locations = [StudentLocation]()
+            var locations = [StudentInformation]()
             for item in results {
-                locations.append(StudentLocation(dict: item))
+                locations.append(StudentInformation(dict: item))
             }
+            
+            locations.sortInPlace({ $0.updatedAt.compare($1.updatedAt) == .OrderedDescending })
             
             completionHandler(data: locations, error: nil)
         }

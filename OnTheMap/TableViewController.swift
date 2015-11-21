@@ -13,10 +13,11 @@ class TableViewController: UIViewController, UITableViewDataSource, UITableViewD
     @IBOutlet var tableView: GSView!
     @IBOutlet weak var locationsTable: UITableView!
     let parseAPI = ParseAPI.sharedInstance()
-    var locations = [StudentLocation]()
+    var locations = [StudentInformation]()
     
     override func viewDidLoad() {
         super.viewDidLoad()
+                
         parseAPI.getLocations { (data, error) -> Void in
             guard let data = data else {
                 print(error)
@@ -28,6 +29,7 @@ class TableViewController: UIViewController, UITableViewDataSource, UITableViewD
                 self.locationsTable.reloadData()
             }
         }
+
     }
     
     override func viewWillAppear(animated: Bool) {
@@ -51,11 +53,24 @@ class TableViewController: UIViewController, UITableViewDataSource, UITableViewD
     }
     
     func tableView(tableView: UITableView, cellForRowAtIndexPath indexPath: NSIndexPath) -> UITableViewCell {
-        let cell = UITableViewCell()
+        let cell = tableView.dequeueReusableCellWithIdentifier("LocationItem", forIndexPath: indexPath) as! LocationCell
         let location = locations[indexPath.row]
         
-        cell.textLabel?.text = "\(location.firstName) \(location.lastName)"
+        cell.setLocationData(location)
         
         return cell
+    }
+    
+    func tableView(tableView: UITableView, didSelectRowAtIndexPath indexPath: NSIndexPath) {
+        let location = locations[indexPath.row]
+        let app = UIApplication.sharedApplication()
+        if let url = location.mediaURL {
+            if (app.canOpenURL(url)){
+                app.openURL(url)
+            } else {
+                showAlert(self, title: "Can't open URL!", msg: "URL '\(url)' seems incorrect, sorry.")
+            }
+        }
+        tableView.deselectRowAtIndexPath(indexPath, animated: true)
     }
 }

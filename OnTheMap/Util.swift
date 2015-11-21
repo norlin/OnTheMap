@@ -17,3 +17,18 @@ func showAlert(sender: AnyObject, title: String = "", msg: String){
         view.presentViewController(alertController, animated: true, completion: nil)
     }
 }
+
+func parseDate(dateString: String) -> NSDate? {
+    let dateFormatter = NSDateFormatter()
+    dateFormatter.locale = NSLocale(localeIdentifier: "en_US_POSIX")
+    dateFormatter.dateFormat = "yyyy-MM-dd'T'HH:mm:ss.SSSZ"
+    return dateFormatter.dateFromString(dateString)
+}
+
+func humanDate(date: NSDate) -> String {
+    let dateFormatter = NSDateFormatter()
+    dateFormatter.locale = NSLocale(localeIdentifier: "en_US_POSIX")
+    dateFormatter.timeStyle = .NoStyle
+    dateFormatter.dateStyle = .MediumStyle
+    return dateFormatter.stringFromDate(date)
+}
