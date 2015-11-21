@@ -43,7 +43,7 @@ class TabBarController: UITabBarController {
             } else {
                 dispatch_async(dispatch_get_main_queue()){
                     self.logoutButton.enabled = true
-                    showAlert(self, msg: "Can't logout: \(msg)")
+                    Util.showAlert(self, msg: "Can't logout: \(msg)")
                 }
             }
         }

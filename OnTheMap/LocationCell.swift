@@ -9,13 +9,12 @@
 import UIKit
 
 class LocationCell: UITableViewCell {
-    
     @IBOutlet weak var title: UILabel!
     @IBOutlet weak var date: UILabel!
     @IBOutlet weak var link: UILabel!
     
     func setLocationData(location: StudentInformation){
-        let dateString = humanDate(location.updatedAt)
+        let dateString = Util.humanDate(location.updatedAt)
         
         self.title.text = "\(location.firstName) \(location.lastName)"
         self.date.text = dateString

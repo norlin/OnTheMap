@@ -22,8 +22,8 @@ class StudentInformation {
     var uniqueKey: String
     
     init(dict: [String: AnyObject]){
-        createdAt = parseDate(dict["createdAt"] as! String)!
-        updatedAt = parseDate(dict["updatedAt"] as! String)!
+        createdAt = Util.parseDate(dict["createdAt"] as! String)!
+        updatedAt = Util.parseDate(dict["updatedAt"] as! String)!
         firstName = dict["firstName"] as! String
         lastName = dict["lastName"] as! String
         latitude = dict["latitude"] as! CLLocationDegrees

@@ -41,12 +41,12 @@ class GSView: UIView {
     }
     
     func activate(){
-        if (self.colors[self] != nil) {
-            self.backgroundColor = self.colors[self]
+        if let bgColor = self.colors[self] {
+            self.backgroundColor = bgColor
         }
-        for view in self.subviews {
-            if (self.colors[view] != nil) {
-                view.backgroundColor = self.colors[view]
+        for view in self.subviews as [UIView] {
+            if let bgColor = self.colors[view] {
+                view.backgroundColor = bgColor
             }
         }
     }
@@ -69,14 +69,15 @@ class GSView: UIView {
     }
     
     func deactivate(){
-        if (self.backgroundColor != nil) {
-            self.colors[self] = self.backgroundColor
-            self.backgroundColor = self.detectGSColor(self.colors[self]!)
+        if let bgColor = self.backgroundColor {
+            self.colors[self] = bgColor
+            self.backgroundColor = self.detectGSColor(bgColor)
         }
-        for view in self.subviews {
-            if (view.backgroundColor != nil) {
-                self.colors[view] = view.backgroundColor
-                view.backgroundColor = self.detectGSColor(self.colors[view]!)
+        
+        for view in self.subviews as [UIView] {
+            if let bgColor = view.backgroundColor {
+                self.colors[view] = bgColor
+                view.backgroundColor = self.detectGSColor(bgColor)
             }
         }
     }

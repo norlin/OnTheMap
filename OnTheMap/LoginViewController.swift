@@ -43,7 +43,7 @@ class LoginViewController: UIViewController {
         let login = loginText.text!
         let pass = passText.text!
         
-        self.msgLabel.text = ""
+        self.msgLabel.text = "Loading..."
         
         if (login.isEmpty || pass.isEmpty) {
             self.msgLabel.text = "Enter login and password"
@@ -57,14 +57,11 @@ class LoginViewController: UIViewController {
                     self.onLogin()
                 }
             } else {
-                if (msg == nil){
-                    dispatch_async(dispatch_get_main_queue()){
-                        self.msgLabel.text = "Error happened"
-                    }
-                } else {
-                    dispatch_async(dispatch_get_main_queue()){
-                        self.msgLabel.text = msg
-                    }
+                let message = msg == nil ? "Error happened" : msg!
+                
+                dispatch_async(dispatch_get_main_queue()){
+                    self.msgLabel.text = message
+                    Util.showAlert(self, title: "Login failed!", msg: message)
                 }
             }
             dispatch_async(dispatch_get_main_queue()){
@@ -75,6 +72,7 @@ class LoginViewController: UIViewController {
     
     func onLogin(){
         if let dest = self.storyboard?.instantiateViewControllerWithIdentifier("tabBarController") {
+            self.msgLabel.text = "Success!"
             self.loginView.activate(){
                 dispatch_async(dispatch_get_main_queue()){
                     self.navigationController?.pushViewController(dest, animated: true)

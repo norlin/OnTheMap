@@ -13,18 +13,15 @@ class TableViewController: UIViewController, UITableViewDataSource, UITableViewD
     @IBOutlet var tableView: GSView!
     @IBOutlet weak var locationsTable: UITableView!
     let parseAPI = ParseAPI.sharedInstance()
-    var locations = [StudentInformation]()
     
     override func viewDidLoad() {
         super.viewDidLoad()
                 
         parseAPI.getLocations { (data, error) -> Void in
-            guard let data = data else {
-                print(error)
-                return
+            if let error = error {
+                Util.showAlert(self, title: "Can't fetch locations!", msg: "\(error.localizedDescription)")
             }
             
-            self.locations = data
             dispatch_async(dispatch_get_main_queue()){
                 self.locationsTable.reloadData()
             }
@@ -49,11 +46,18 @@ class TableViewController: UIViewController, UITableViewDataSource, UITableViewD
     }
     
     func tableView(tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        return locations.count
+        if let locations = parseAPI.locations {
+            return locations.count
+        }
+        return 0
     }
     
     func tableView(tableView: UITableView, cellForRowAtIndexPath indexPath: NSIndexPath) -> UITableViewCell {
         let cell = tableView.dequeueReusableCellWithIdentifier("LocationItem", forIndexPath: indexPath) as! LocationCell
+        guard let locations = parseAPI.locations else {
+            Util.showAlert(self, msg: "Can't find locations!")
+            return cell
+        }
         let location = locations[indexPath.row]
         
         cell.setLocationData(location)
@@ -62,13 +66,17 @@ class TableViewController: UIViewController, UITableViewDataSource, UITableViewD
     }
     
     func tableView(tableView: UITableView, didSelectRowAtIndexPath indexPath: NSIndexPath) {
+        guard let locations = parseAPI.locations else {
+            Util.showAlert(self, msg: "Can't find locations!")
+            return
+        }
         let location = locations[indexPath.row]
         let app = UIApplication.sharedApplication()
         if let url = location.mediaURL {
             if (app.canOpenURL(url)){
                 app.openURL(url)
             } else {
-                showAlert(self, title: "Can't open URL!", msg: "URL '\(url)' seems incorrect, sorry.")
+                Util.showAlert(self, title: "Can't open URL!", msg: "URL '\(url)' seems incorrect, sorry.")
             }
         }
         tableView.deselectRowAtIndexPath(indexPath, animated: true)
