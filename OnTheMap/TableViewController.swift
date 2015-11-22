@@ -71,13 +71,8 @@ class TableViewController: UIViewController, UITableViewDataSource, UITableViewD
             return
         }
         let location = locations[indexPath.row]
-        let app = UIApplication.sharedApplication()
         if let url = location.mediaURL {
-            if (app.canOpenURL(url)){
-                app.openURL(url)
-            } else {
-                Util.showAlert(self, title: "Can't open URL!", msg: "URL '\(url)' seems incorrect, sorry.")
-            }
+            Util.openURL(self, url: url)
         }
         tableView.deselectRowAtIndexPath(indexPath, animated: true)
     }

@@ -138,18 +138,21 @@
         <!--Map-->
         <scene sceneID="NaA-GA-3ke">
             <objects>
-                <viewController id="5iM-j2-TjP" sceneMemberID="viewController">
+                <viewController id="5iM-j2-TjP" customClass="MapViewController" customModule="OnTheMap" customModuleProvider="target" sceneMemberID="viewController">
                     <layoutGuides>
                         <viewControllerLayoutGuide type="top" id="1aO-67-tG3"/>
                         <viewControllerLayoutGuide type="bottom" id="fL9-VI-eQT"/>
                     </layoutGuides>
-                    <view key="view" contentMode="scaleToFill" id="BYc-VV-HGY">
+                    <view key="view" contentMode="scaleToFill" id="BYc-VV-HGY" customClass="GSView" customModule="OnTheMap" customModuleProvider="target">
                         <rect key="frame" x="0.0" y="0.0" width="320" height="568"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
                             <mapView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" mapType="standard" translatesAutoresizingMaskIntoConstraints="NO" id="QIM-mH-Wcn">
                                 <rect key="frame" x="0.0" y="64" width="320" height="455"/>
                                 <animations/>
+                                <connections>
+                                    <outlet property="delegate" destination="5iM-j2-TjP" id="Hph-mp-1eE"/>
+                                </connections>
                             </mapView>
                         </subviews>
                         <animations/>
@@ -163,10 +166,62 @@
                     </view>
                     <tabBarItem key="tabBarItem" title="Map" image="MapIcon" id="7D5-FU-AwP"/>
                     <simulatedScreenMetrics key="simulatedDestinationMetrics" type="retina4"/>
+                    <connections>
+                        <outlet property="map" destination="QIM-mH-Wcn" id="N4V-xf-9Gj"/>
+                        <outlet property="mapView" destination="BYc-VV-HGY" id="iIt-nW-fAe"/>
+                    </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="dAB-iH-5gl" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
             <point key="canvasLocation" x="1046" y="658"/>
+        </scene>
+        <!--Add View Controller-->
+        <scene sceneID="hgM-Ge-f9e">
+            <objects>
+                <viewController storyboardIdentifier="addViewController" title="Add New Location" id="0SO-cx-rxN" userLabel="Add View Controller" customClass="AddViewController" customModule="OnTheMap" customModuleProvider="target" sceneMemberID="viewController">
+                    <layoutGuides>
+                        <viewControllerLayoutGuide type="top" id="NUs-81-99S"/>
+                        <viewControllerLayoutGuide type="bottom" id="X0H-xf-1zJ"/>
+                    </layoutGuides>
+                    <view key="view" contentMode="scaleToFill" id="oOX-2K-uGd">
+                        <rect key="frame" x="0.0" y="0.0" width="320" height="568"/>
+                        <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                        <subviews>
+                            <navigationBar contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="K3y-F1-R8y">
+                                <rect key="frame" x="0.0" y="0.0" width="320" height="64"/>
+                                <animations/>
+                                <constraints>
+                                    <constraint firstAttribute="height" constant="64" id="ANf-Rt-dh1"/>
+                                </constraints>
+                                <items>
+                                    <navigationItem title="Add New Location" id="3vT-QL-MB3">
+                                        <barButtonItem key="leftBarButtonItem" systemItem="cancel" id="yUl-eP-TbC">
+                                            <connections>
+                                                <action selector="cancel:" destination="0SO-cx-rxN" id="0sf-ud-kO3"/>
+                                            </connections>
+                                        </barButtonItem>
+                                        <barButtonItem key="rightBarButtonItem" enabled="NO" systemItem="save" id="1Zj-d6-UcC"/>
+                                        <connections>
+                                            <outlet property="backBarButtonItem" destination="yUl-eP-TbC" id="ae8-Ci-yCd"/>
+                                            <outlet property="rightBarButtonItem" destination="1Zj-d6-UcC" id="its-Wg-Gi2"/>
+                                        </connections>
+                                    </navigationItem>
+                                </items>
+                            </navigationBar>
+                        </subviews>
+                        <animations/>
+                        <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                        <constraints>
+                            <constraint firstItem="K3y-F1-R8y" firstAttribute="leading" secondItem="oOX-2K-uGd" secondAttribute="leading" id="2iF-V9-LXx"/>
+                            <constraint firstAttribute="trailing" secondItem="K3y-F1-R8y" secondAttribute="trailing" id="67A-gS-eSj"/>
+                            <constraint firstItem="K3y-F1-R8y" firstAttribute="top" secondItem="oOX-2K-uGd" secondAttribute="top" id="Dop-Yw-0N6"/>
+                        </constraints>
+                    </view>
+                    <simulatedScreenMetrics key="simulatedDestinationMetrics" type="retina4"/>
+                </viewController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="bXz-te-t86" userLabel="First Responder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="1684" y="292"/>
         </scene>
         <!--Navigation Controller-->
         <scene sceneID="6ae-is-rKi">

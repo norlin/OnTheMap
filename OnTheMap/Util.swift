@@ -33,4 +33,13 @@ class Util {
         dateFormatter.dateStyle = .MediumStyle
         return dateFormatter.stringFromDate(date)
     }
+    
+    class func openURL(sender: AnyObject, url: NSURL) {
+        let app = UIApplication.sharedApplication()
+        if (app.canOpenURL(url)){
+            app.openURL(url)
+        } else {
+            Util.showAlert(sender, title: "Can't open URL!", msg: "URL '\(url)' seems incorrect, sorry.")
+        }
+    }
 }

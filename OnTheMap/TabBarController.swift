@@ -12,10 +12,12 @@ class TabBarController: UITabBarController {
     let udacityAPI = UdacityAPI.sharedInstance()
     
     var logoutButton: UIBarButtonItem!
+    var addButton: UIBarButtonItem!
     var logoutInProgress = false
     
     override func viewDidLoad() {
         logoutButton = UIBarButtonItem(title: "Logout", style: UIBarButtonItemStyle.Plain, target: self, action: "logout:")
+        addButton = UIBarButtonItem(image: UIImage(named: "PinIcon"), style: .Plain, target: self, action: "addLocation:")
         udacityAPI.userData { (result, error) -> Void in
             if let user = result?.valueForKey(UdacityAPI.Keys.User) {
                 if let nickname = user.valueForKey(UdacityAPI.Keys.Nickname) as? String {
@@ -31,6 +33,7 @@ class TabBarController: UITabBarController {
         logoutButton.enabled = true
         self.navigationController?.setNavigationBarHidden(false, animated: animated)
         self.navigationItem.setLeftBarButtonItem(logoutButton, animated: animated)
+        self.navigationItem.setRightBarButtonItem(addButton, animated: animated)
     }
     
     func logout(sender: UIBarButtonItem){
@@ -47,5 +50,14 @@ class TabBarController: UITabBarController {
                 }
             }
         }
+    }    
+    func addLocation(sender: UIBarButtonItem){
+        guard let addViewController = self.storyboard?.instantiateViewControllerWithIdentifier("addViewController") else {
+        
+            Util.showAlert(self, msg: "Can't create view!")
+            return
+        }
+        
+        self.presentViewController(addViewController, animated: true, completion: nil)
     }
 }

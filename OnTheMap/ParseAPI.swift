@@ -69,7 +69,6 @@ class ParseAPI: HTTP {
                 locations.append(StudentInformation(dict: item))
             }
             
-            print(locations.count)
             locations.sortInPlace({ $0.updatedAt.compare($1.updatedAt) == .OrderedDescending })
             self.locations = locations
             completionHandler(data: locations, error: nil)
@@ -82,7 +81,6 @@ class ParseAPI: HTTP {
     
     func prepareRequest(url: String) -> NSMutableURLRequest {
         let urlString = ParseAPI.Constants.BaseURLSecure + url
-        print(urlString)
         let nsurl = NSURL(string: urlString)!
         let req = NSMutableURLRequest(URL: nsurl)
         req.addValue(ParseAPI.Constants.AppID, forHTTPHeaderField: "X-Parse-Application-Id")
