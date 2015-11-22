@@ -22,7 +22,6 @@
 		97997B7E1BB84B4200CBE841 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 97997B7D1BB84B4200CBE841 /* Assets.xcassets */; };
 		97997B811BB84B4200CBE841 /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 97997B7F1BB84B4200CBE841 /* LaunchScreen.storyboard */; };
 		97DF67571BE71FC600CA77C1 /* TableViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 97DF67561BE71FC600CA77C1 /* TableViewController.swift */; };
-		97DF67591BE72C9100CA77C1 /* NavViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 97DF67581BE72C9100CA77C1 /* NavViewController.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -43,7 +42,6 @@
 		97997B801BB84B4200CBE841 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/LaunchScreen.storyboard; sourceTree = "<group>"; };
 		97997B821BB84B4200CBE841 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		97DF67561BE71FC600CA77C1 /* TableViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = TableViewController.swift; sourceTree = "<group>"; };
-		97DF67581BE72C9100CA77C1 /* NavViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = NavViewController.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -102,7 +100,6 @@
 			children = (
 				97997B781BB84B4200CBE841 /* LoginViewController.swift */,
 				97DF67561BE71FC600CA77C1 /* TableViewController.swift */,
-				97DF67581BE72C9100CA77C1 /* NavViewController.swift */,
 				9755AD181BF077DB005C54E7 /* TabBarController.swift */,
 			);
 			name = Controller;
@@ -197,7 +194,6 @@
 				9765BEA61BBAC3B800599480 /* UdacityAPI.swift in Sources */,
 				9755AD1B1BF07B1E005C54E7 /* Util.swift in Sources */,
 				9755AD191BF077DB005C54E7 /* TabBarController.swift in Sources */,
-				97DF67591BE72C9100CA77C1 /* NavViewController.swift in Sources */,
 				97DF67571BE71FC600CA77C1 /* TableViewController.swift in Sources */,
 				970E3D171C0097E0001EBA01 /* Colors.swift in Sources */,
 				9765BEA41BBAC25800599480 /* HTTP.swift in Sources */,

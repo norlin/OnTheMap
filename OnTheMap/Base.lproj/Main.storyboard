@@ -146,8 +146,20 @@
                     <view key="view" contentMode="scaleToFill" id="BYc-VV-HGY">
                         <rect key="frame" x="0.0" y="0.0" width="320" height="568"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                        <subviews>
+                            <mapView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" mapType="standard" translatesAutoresizingMaskIntoConstraints="NO" id="QIM-mH-Wcn">
+                                <rect key="frame" x="0.0" y="64" width="320" height="455"/>
+                                <animations/>
+                            </mapView>
+                        </subviews>
                         <animations/>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                        <constraints>
+                            <constraint firstItem="QIM-mH-Wcn" firstAttribute="top" secondItem="1aO-67-tG3" secondAttribute="bottom" id="1Lh-dk-LQU"/>
+                            <constraint firstItem="QIM-mH-Wcn" firstAttribute="leading" secondItem="BYc-VV-HGY" secondAttribute="leading" id="2vq-AF-aOP"/>
+                            <constraint firstAttribute="trailing" secondItem="QIM-mH-Wcn" secondAttribute="trailing" id="Fdp-xQ-gY1"/>
+                            <constraint firstItem="fL9-VI-eQT" firstAttribute="top" secondItem="QIM-mH-Wcn" secondAttribute="bottom" id="ObH-B4-vmg"/>
+                        </constraints>
                     </view>
                     <tabBarItem key="tabBarItem" title="Map" image="MapIcon" id="7D5-FU-AwP"/>
                     <simulatedScreenMetrics key="simulatedDestinationMetrics" type="retina4"/>
@@ -156,10 +168,10 @@
             </objects>
             <point key="canvasLocation" x="1046" y="658"/>
         </scene>
-        <!--Nav View Controller-->
+        <!--Navigation Controller-->
         <scene sceneID="6ae-is-rKi">
             <objects>
-                <navigationController id="CVR-z2-wyC" customClass="NavViewController" customModule="OnTheMap" customModuleProvider="target" sceneMemberID="viewController">
+                <navigationController id="CVR-z2-wyC" sceneMemberID="viewController">
                     <navigationBar key="navigationBar" contentMode="scaleToFill" id="8RM-YV-OQP">
                         <rect key="frame" x="0.0" y="0.0" width="320" height="44"/>
                         <autoresizingMask key="autoresizingMask"/>
@@ -194,7 +206,7 @@
                                         <rect key="frame" x="0.0" y="92" width="320" height="65"/>
                                         <autoresizingMask key="autoresizingMask"/>
                                         <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" tableViewCell="KKl-Ij-hZ2" id="fQM-fO-ZH9">
-                                            <rect key="frame" x="0.0" y="0.0" width="287" height="64.5"/>
+                                            <rect key="frame" x="0.0" y="0.0" width="287" height="65"/>
                                             <autoresizingMask key="autoresizingMask"/>
                                             <subviews>
                                                 <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Title" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="vo2-5p-1Nc" userLabel="Title">
@@ -209,7 +221,7 @@
                                                     <nil key="highlightedColor"/>
                                                 </label>
                                                 <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="link" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="U1i-kK-t0u">
-                                                    <rect key="frame" x="8" y="35" width="26.5" height="21"/>
+                                                    <rect key="frame" x="8" y="35" width="27" height="21"/>
                                                     <animations/>
                                                     <constraints>
                                                         <constraint firstAttribute="height" constant="21" id="edQ-Ju-ife"/>
