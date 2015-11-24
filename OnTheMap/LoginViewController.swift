@@ -29,6 +29,9 @@ class LoginViewController: UIViewController {
     override func viewWillAppear(animated: Bool) {
         loginView.backgroundColor = UIColor(red: 0.9, green: 0.9, blue: 1, alpha: 1)
         loginButton.backgroundColor = UIColor(red: 0.3, green: 0.7, blue: 0.3, alpha: 1)
+        msgLabel.text = ""
+        //loginText.text = ""
+        //passText.text = ""
         self.navigationController?.setNavigationBarHidden(true, animated: animated)
     }
 

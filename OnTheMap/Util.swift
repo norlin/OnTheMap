@@ -18,6 +18,26 @@ class Util {
             view.presentViewController(alertController, animated: true, completion: nil)
         }
     }
+    
+    class func showLoader(view: UIView) -> UIActivityIndicatorView {
+        let loader = UIActivityIndicatorView(activityIndicatorStyle: .Gray)
+        loader.frame = CGRect(x: 0, y: 0, width: 100, height: 100)
+        loader.center = view.center
+        loader.backgroundColor = UIColors.loader()
+        loader.hidesWhenStopped = true
+        dispatch_async(dispatch_get_main_queue()){
+            view.addSubview(loader)
+        }
+        loader.startAnimating()
+        return loader
+    }
+    
+    class func hideLoader(loader: UIActivityIndicatorView){
+        loader.stopAnimating()
+        dispatch_async(dispatch_get_main_queue()){
+            loader.removeFromSuperview()
+        }
+    }
 
     class func parseDate(dateString: String) -> NSDate? {
         let dateFormatter = NSDateFormatter()

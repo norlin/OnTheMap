@@ -10,6 +10,7 @@ import UIKit
 
 class TabBarController: UITabBarController {
     let udacityAPI = UdacityAPI.sharedInstance()
+    let parseAPI = ParseAPI.sharedInstance()
     
     var logoutButton: UIBarButtonItem!
     var addButton: UIBarButtonItem!
@@ -19,11 +20,13 @@ class TabBarController: UITabBarController {
         logoutButton = UIBarButtonItem(title: "Logout", style: UIBarButtonItemStyle.Plain, target: self, action: "logout:")
         addButton = UIBarButtonItem(image: UIImage(named: "PinIcon"), style: .Plain, target: self, action: "addLocation:")
         udacityAPI.userData { (result, error) -> Void in
-            if let user = result?.valueForKey(UdacityAPI.Keys.User) {
-                if let nickname = user.valueForKey(UdacityAPI.Keys.Nickname) as? String {
-                    dispatch_async(dispatch_get_main_queue()){
-                        self.navigationItem.title = "Hi, \(nickname)!"
-                    }
+            guard let user = self.udacityAPI.user else {
+                Util.showAlert(self, msg: "Can't find user info!")
+                return
+            }
+            if let nickname = user[UdacityAPI.Keys.Nickname] as? String {
+                dispatch_async(dispatch_get_main_queue()){
+                    self.navigationItem.title = "Hi, \(nickname)!"
                 }
             }
         }
@@ -40,6 +43,7 @@ class TabBarController: UITabBarController {
         logoutButton.enabled = false
         udacityAPI.logout(){success, msg in
             if (success){
+                self.parseAPI.logout()
                 dispatch_async(dispatch_get_main_queue()){
                     self.navigationController?.popToRootViewControllerAnimated(true)
                 }

@@ -7,7 +7,9 @@
 //
 
 import Foundation
+import UIKit
 class HTTP: NSObject {
+    let app = UIApplication.sharedApplication()
     
     override init() {
         super.init()
@@ -38,10 +40,18 @@ class HTTP: NSObject {
     }
     
     func request(request: NSURLRequest, completionHandler: (result: AnyObject?, error: NSError?) -> Void) -> NSURLSessionDataTask {
+        var loader: UIActivityIndicatorView?
+        if let view = app.keyWindow?.subviews.last {
+            loader = Util.showLoader(view)
+        }
         let _self = self
         request.valueForHTTPHeaderField("")
         let session = NSURLSession.sharedSession()
         let task = session.dataTaskWithRequest(request) { (data, response, error) in
+            if let loaderView = loader {
+                Util.hideLoader(loaderView)
+                loader = nil
+            }
             guard (error == nil) else {
                 print("There was an error with your request: \(error)")
                 return
@@ -50,7 +60,7 @@ class HTTP: NSObject {
             var err: NSError? = nil
             if statusCode < 200 || statusCode > 299 {
                 var msg = ""
-                if let response = response as? NSHTTPURLResponse {
+                if let _ = response as? NSHTTPURLResponse {
                     msg = "Your request returned an invalid response! code: \(statusCode)!"
                 } else if let response = response {
                     msg = "Your request returned an invalid response! Response: \(response)!"

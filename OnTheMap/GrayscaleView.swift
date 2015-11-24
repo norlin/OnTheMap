@@ -10,6 +10,7 @@ import UIKit
 
 class GSView: UIView {
     var colors: [UIView: UIColor] = [UIView: UIColor]()
+    var deactivated = false
     
     func detectGSColor(color: UIColor) -> UIColor {
         let cColor = CIColor(color: color)
@@ -24,6 +25,12 @@ class GSView: UIView {
     }
     
     func activate(instant: Bool = false, completion: (() -> Void)?){
+        if (!self.deactivated) {
+            if completion != nil {
+                completion!()
+            }
+            return
+        }
         if (instant == true){
             self.activate()
             if completion != nil {
@@ -41,6 +48,10 @@ class GSView: UIView {
     }
     
     func activate(){
+        if (!self.deactivated) {
+            return
+        }
+        self.deactivated = false
         if let bgColor = self.colors[self] {
             self.backgroundColor = bgColor
         }
@@ -52,6 +63,12 @@ class GSView: UIView {
     }
     
     func deactivate(instant: Bool = false, completion: (() -> Void)?){
+        if (self.deactivated) {
+            if completion != nil {
+                completion!()
+            }
+            return
+        }
         if (instant == true){
             self.deactivate()
             if completion != nil {
@@ -69,6 +86,10 @@ class GSView: UIView {
     }
     
     func deactivate(){
+        if (self.deactivated) {
+            return
+        }
+        self.deactivated = true
         if let bgColor = self.backgroundColor {
             self.colors[self] = bgColor
             self.backgroundColor = self.detectGSColor(bgColor)

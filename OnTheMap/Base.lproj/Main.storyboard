@@ -183,7 +183,7 @@
                         <viewControllerLayoutGuide type="top" id="NUs-81-99S"/>
                         <viewControllerLayoutGuide type="bottom" id="X0H-xf-1zJ"/>
                     </layoutGuides>
-                    <view key="view" contentMode="scaleToFill" id="oOX-2K-uGd">
+                    <view key="view" contentMode="scaleToFill" id="oOX-2K-uGd" customClass="GSView" customModule="OnTheMap" customModuleProvider="target">
                         <rect key="frame" x="0.0" y="0.0" width="320" height="568"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
@@ -200,7 +200,11 @@
                                                 <action selector="cancel:" destination="0SO-cx-rxN" id="0sf-ud-kO3"/>
                                             </connections>
                                         </barButtonItem>
-                                        <barButtonItem key="rightBarButtonItem" enabled="NO" systemItem="save" id="1Zj-d6-UcC"/>
+                                        <barButtonItem key="rightBarButtonItem" enabled="NO" title="Submit" id="1Zj-d6-UcC">
+                                            <connections>
+                                                <action selector="submit:" destination="0SO-cx-rxN" id="D7t-8f-7dc"/>
+                                            </connections>
+                                        </barButtonItem>
                                         <connections>
                                             <outlet property="backBarButtonItem" destination="yUl-eP-TbC" id="ae8-Ci-yCd"/>
                                             <outlet property="rightBarButtonItem" destination="1Zj-d6-UcC" id="its-Wg-Gi2"/>
@@ -208,16 +212,55 @@
                                     </navigationItem>
                                 </items>
                             </navigationBar>
+                            <textField opaque="NO" clipsSubviews="YES" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" placeholder="Please enter your URL" textAlignment="center" clearsOnBeginEditing="YES" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="GRi-EM-Aqd" userLabel="UrlText">
+                                <rect key="frame" x="16" y="115" width="288" height="30"/>
+                                <animations/>
+                                <constraints>
+                                    <constraint firstAttribute="height" constant="30" id="GYx-cS-v56"/>
+                                </constraints>
+                                <fontDescription key="fontDescription" type="system" pointSize="14"/>
+                                <textInputTraits key="textInputTraits" autocorrectionType="no" spellCheckingType="no" keyboardType="URL" returnKeyType="done"/>
+                            </textField>
+                            <mapView hidden="YES" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" mapType="standard" translatesAutoresizingMaskIntoConstraints="NO" id="BwC-aw-fJs">
+                                <rect key="frame" x="0.0" y="191" width="320" height="377"/>
+                                <animations/>
+                            </mapView>
+                            <textField opaque="NO" clipsSubviews="YES" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" placeholder="Please enter desired location here" textAlignment="center" clearsOnBeginEditing="YES" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="eZR-Wx-Znc" userLabel="LocationText">
+                                <rect key="frame" x="16" y="153" width="288" height="30"/>
+                                <animations/>
+                                <constraints>
+                                    <constraint firstAttribute="height" constant="30" id="cfD-4c-2Uq"/>
+                                </constraints>
+                                <fontDescription key="fontDescription" type="system" pointSize="14"/>
+                                <textInputTraits key="textInputTraits" returnKeyType="search"/>
+                            </textField>
                         </subviews>
                         <animations/>
-                        <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                        <color key="backgroundColor" red="0.8154757022857666" green="0.84010875225067139" blue="0.9994770884513855" alpha="1" colorSpace="calibratedRGB"/>
                         <constraints>
                             <constraint firstItem="K3y-F1-R8y" firstAttribute="leading" secondItem="oOX-2K-uGd" secondAttribute="leading" id="2iF-V9-LXx"/>
                             <constraint firstAttribute="trailing" secondItem="K3y-F1-R8y" secondAttribute="trailing" id="67A-gS-eSj"/>
+                            <constraint firstItem="BwC-aw-fJs" firstAttribute="top" secondItem="eZR-Wx-Znc" secondAttribute="bottom" constant="8" id="9mi-XO-cLv"/>
                             <constraint firstItem="K3y-F1-R8y" firstAttribute="top" secondItem="oOX-2K-uGd" secondAttribute="top" id="Dop-Yw-0N6"/>
+                            <constraint firstAttribute="trailingMargin" secondItem="eZR-Wx-Znc" secondAttribute="trailing" id="OdU-fm-7fO"/>
+                            <constraint firstItem="GRi-EM-Aqd" firstAttribute="top" secondItem="K3y-F1-R8y" secondAttribute="bottom" constant="51" id="Ri1-6W-sez"/>
+                            <constraint firstItem="eZR-Wx-Znc" firstAttribute="top" secondItem="GRi-EM-Aqd" secondAttribute="bottom" constant="8" id="Tzm-8j-3VA"/>
+                            <constraint firstAttribute="trailing" secondItem="BwC-aw-fJs" secondAttribute="trailing" id="bJY-pn-iPR"/>
+                            <constraint firstItem="X0H-xf-1zJ" firstAttribute="top" secondItem="BwC-aw-fJs" secondAttribute="bottom" id="cWn-60-Nbg"/>
+                            <constraint firstItem="BwC-aw-fJs" firstAttribute="leading" secondItem="oOX-2K-uGd" secondAttribute="leading" id="f2t-Dw-3V6"/>
+                            <constraint firstItem="eZR-Wx-Znc" firstAttribute="leading" secondItem="oOX-2K-uGd" secondAttribute="leadingMargin" id="kJW-lR-rlf"/>
+                            <constraint firstAttribute="trailingMargin" secondItem="GRi-EM-Aqd" secondAttribute="trailing" id="miW-tk-6Oi"/>
+                            <constraint firstItem="GRi-EM-Aqd" firstAttribute="leading" secondItem="oOX-2K-uGd" secondAttribute="leadingMargin" id="nnh-bC-WKq"/>
                         </constraints>
                     </view>
                     <simulatedScreenMetrics key="simulatedDestinationMetrics" type="retina4"/>
+                    <connections>
+                        <outlet property="addView" destination="oOX-2K-uGd" id="8Zn-HP-ffW"/>
+                        <outlet property="locationPreview" destination="BwC-aw-fJs" id="ZFp-lB-Mnr"/>
+                        <outlet property="locationText" destination="eZR-Wx-Znc" id="zEn-Ev-HP2"/>
+                        <outlet property="submitButton" destination="1Zj-d6-UcC" id="vo1-zV-3ke"/>
+                        <outlet property="urlText" destination="GRi-EM-Aqd" id="eCB-zK-8Ka"/>
+                    </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="bXz-te-t86" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>

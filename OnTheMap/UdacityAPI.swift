@@ -11,6 +11,7 @@ import Foundation
 class UdacityAPI: HTTP {
     var session_id: String?
     var account_key: String?
+    var user: [String: AnyObject]?
     
     struct Constants {
         static let BaseURLSecure: String = "https://www.udacity.com/api"
@@ -31,6 +32,8 @@ class UdacityAPI: HTTP {
         static let AccountKey: String = "key"
         static let User: String = "user"
         static let Nickname: String = "nickname"
+        static let LastName: String = "last_name"
+        static let FirstName: String = "first_name"
     }
     
     /*
@@ -105,7 +108,12 @@ class UdacityAPI: HTTP {
         }
         
         let url = UdacityAPI.Methods.UserData + user_id
-        self.get(url, completionHandler: completionHandler)
+        self.get(url){result, error in
+            if let user = result?.valueForKey(UdacityAPI.Keys.User) as? [String: AnyObject] {
+                self.user = user
+            }
+            completionHandler(result: result, error: error)
+        }
     }
     
     

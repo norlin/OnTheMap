@@ -15,4 +15,8 @@ class UIColors {
     class func secondary() -> UIColor {
         return UIColor.grayColor()
     }
+    
+    class func loader() -> UIColor {
+        return UIColor(red: 0.6, green: 0.6, blue: 0.6, alpha: 0.4)
+    }
 }

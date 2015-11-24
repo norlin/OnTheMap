@@ -31,6 +31,12 @@ class ParseAPI: HTTP {
         static let OrderKey = "order"
     }
     
+    func logout(){
+        locations = nil
+        session_id = nil
+        account_key = nil
+    }
+    
     /*
     API Methods
     */
@@ -38,10 +44,10 @@ class ParseAPI: HTTP {
     func getLocations(completionHandler: (data: [StudentInformation]?, error: NSError?) -> Void){
         let url = ParseAPI.Methods.StudentLocations
         
-        if let locations = self.locations {
+        /*if let locations = self.locations {
             completionHandler(data: locations, error: nil)
             return
-        }
+        }*/
         
         let params: [String: AnyObject] = [
             ParseAPI.Keys.LimitKey: ParseAPI.Constants.Limit,
@@ -73,6 +79,17 @@ class ParseAPI: HTTP {
             self.locations = locations
             completionHandler(data: locations, error: nil)
         }
+    }
+    
+    func postLocation(location: [String: AnyObject], completionHandler: (result: AnyObject?, error: NSError?) -> Void){
+        let url = ParseAPI.Methods.StudentLocations
+        
+        let params: [String: AnyObject] = [
+            ParseAPI.Keys.LimitKey: ParseAPI.Constants.Limit,
+            ParseAPI.Keys.OrderKey: ParseAPI.Constants.SortBy
+        ]
+        
+        self.post(url, parameters: params, jsonBody: location, completionHandler: completionHandler)
     }
     
     /*

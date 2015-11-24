@@ -17,6 +17,12 @@ class MapViewController: UIViewController, MKMapViewDelegate {
     
     override func viewDidLoad() {
         super.viewDidLoad()
+    }
+    
+    override func viewWillAppear(animated: Bool) {
+        if (animated){
+            self.mapView.deactivate(true, completion: nil)
+        }
                 
         parseAPI.getLocations { (data, error) -> Void in
             if let error = error {
@@ -26,13 +32,6 @@ class MapViewController: UIViewController, MKMapViewDelegate {
             dispatch_async(dispatch_get_main_queue()){
                 self.updateMap()
             }
-        }
-
-    }
-    
-    override func viewWillAppear(animated: Bool) {
-        if (animated){
-            self.mapView.deactivate(true, completion: nil)
         }
     }
 
