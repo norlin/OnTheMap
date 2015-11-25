@@ -111,10 +111,12 @@ class AddViewController: UIViewController, UITextFieldDelegate {
             updateState()
             return
         }
+        let loader = Util.showLoader(self.view)
         let geocoder = CLGeocoder()
         geocoder.geocodeAddressString(location){placemarks, error in
             guard let places = placemarks else {
                 self.updateState()
+                Util.hideLoader(loader)
                 Util.showAlert(self, msg: "Can't find any location!")
                 return
             }
@@ -122,6 +124,7 @@ class AddViewController: UIViewController, UITextFieldDelegate {
             let annotation = MKPointAnnotation()
             guard let coords = place.location?.coordinate else {
                 self.updateState()
+                Util.hideLoader(loader)
                 Util.showAlert(self, msg: "Can't draw the location!")
                 return
             }
@@ -130,6 +133,7 @@ class AddViewController: UIViewController, UITextFieldDelegate {
             self.mapString = location
             self.locationPreview.addAnnotation(annotation)
             self.updateState()
+            Util.hideLoader(loader)
             
             dispatch_async(dispatch_get_main_queue()){
                 self.locationPreview.hidden = false
