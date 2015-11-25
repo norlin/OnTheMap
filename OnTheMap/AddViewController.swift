@@ -105,6 +105,8 @@ class AddViewController: UIViewController, UITextFieldDelegate {
     func updateLocation(text: String?){
         self.coords = nil
         self.mapString = nil
+        self.locationPreview.removeAnnotations(self.locationPreview.annotations)
+
         guard let location = text else {
             updateState()
             return
