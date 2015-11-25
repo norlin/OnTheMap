@@ -88,7 +88,7 @@ class AddViewController: UIViewController, UITextFieldDelegate {
         
         parseAPI.postLocation(location){result, err in
             if (err != nil){
-                Util.showAlert(self, title: "Can't save location!", msg: "\(err)")
+                Util.showAlert(self, title: "Can't save location!", msg: "\(err?.userInfo[NSLocalizedDescriptionKey])")
                 return
             }
             guard let _ = result else {
@@ -96,7 +96,9 @@ class AddViewController: UIViewController, UITextFieldDelegate {
                 return
             }
             
-            self.dismissViewControllerAnimated(true, completion: nil)
+            dispatch_async(dispatch_get_main_queue()){
+                self.dismissViewControllerAnimated(true, completion: nil)
+            }
         }
     }
     

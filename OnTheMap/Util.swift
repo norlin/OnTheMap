@@ -15,14 +15,16 @@ class Util {
             let alertController = UIAlertController(title: title, message: msg, preferredStyle: UIAlertControllerStyle.Alert)
             alertController.addAction(UIAlertAction(title: "Dismiss", style: UIAlertActionStyle.Default, handler: nil))
           
-            view.presentViewController(alertController, animated: true, completion: nil)
+            dispatch_async(dispatch_get_main_queue()){
+                view.presentViewController(alertController, animated: true, completion: nil)
+            }
         }
     }
     
     class func showLoader(view: UIView) -> UIActivityIndicatorView {
         let loader = UIActivityIndicatorView(activityIndicatorStyle: .Gray)
-        loader.frame = CGRect(x: 0, y: 0, width: 100, height: 100)
-        loader.center = view.center
+        loader.frame = CGRect(x: 0, y: 0, width: view.frame.width, height: view.frame.height)
+//        loader.center = view.center
         loader.backgroundColor = UIColors.loader()
         loader.hidesWhenStopped = true
         dispatch_async(dispatch_get_main_queue()){

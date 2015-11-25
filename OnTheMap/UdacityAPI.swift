@@ -46,7 +46,7 @@ class UdacityAPI: HTTP {
         self.post(url, jsonBody: data){res, err in
             if let cb = completion {
                 if res == nil {
-                    cb(success: false, msg: err?.description)
+                    cb(success: false, msg: err?.userInfo[NSLocalizedDescriptionKey] as? String)
                     return
                 }
                 

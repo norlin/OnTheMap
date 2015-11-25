@@ -53,7 +53,7 @@ class HTTP: NSObject {
                 loader = nil
             }
             guard (error == nil) else {
-                print("There was an error with your request: \(error)")
+                completionHandler(result: nil, error: HTTP.Error("taskForGETMethod", code: 0, msg: "There was an error with your request!"))
                 return
             }
             let statusCode = (response as? NSHTTPURLResponse)?.statusCode
