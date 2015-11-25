@@ -9,7 +9,29 @@
 import Foundation
 import CoreLocation
 
-class StudentInformation {
+class StudentLocations {
+    var locations: [StudentInformation]?
+    
+    init(){}
+    
+    func update(locations: [StudentInformation]){
+        self.locations = locations
+    }
+    
+    func clear(){
+        locations = nil
+    }
+    
+    class func sharedInstance() -> StudentLocations {
+        struct Singleton {
+            static var sharedInstance = StudentLocations()
+        }
+        
+        return Singleton.sharedInstance
+    }
+}
+
+struct StudentInformation {
     var createdAt: NSDate
     var updatedAt: NSDate
     var firstName: String

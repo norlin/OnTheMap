@@ -13,6 +13,7 @@ class TableViewController: UIViewController, UITableViewDataSource, UITableViewD
     @IBOutlet var tableView: GSView!
     @IBOutlet weak var locationsTable: UITableView!
     let parseAPI = ParseAPI.sharedInstance()
+    let locations = StudentLocations.sharedInstance()
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -45,7 +46,7 @@ class TableViewController: UIViewController, UITableViewDataSource, UITableViewD
     }
     
     func tableView(tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        if let locations = parseAPI.locations {
+        if let locations = locations.locations {
             return locations.count
         }
         return 0
@@ -53,7 +54,7 @@ class TableViewController: UIViewController, UITableViewDataSource, UITableViewD
     
     func tableView(tableView: UITableView, cellForRowAtIndexPath indexPath: NSIndexPath) -> UITableViewCell {
         let cell = tableView.dequeueReusableCellWithIdentifier("LocationItem", forIndexPath: indexPath) as! LocationCell
-        guard let locations = parseAPI.locations else {
+        guard let locations = locations.locations else {
             Util.showAlert(self, msg: "Can't find locations!")
             return cell
         }
@@ -65,7 +66,7 @@ class TableViewController: UIViewController, UITableViewDataSource, UITableViewD
     }
     
     func tableView(tableView: UITableView, didSelectRowAtIndexPath indexPath: NSIndexPath) {
-        guard let locations = parseAPI.locations else {
+        guard let locations = locations.locations else {
             Util.showAlert(self, msg: "Can't find locations!")
             return
         }

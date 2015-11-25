@@ -11,7 +11,7 @@ import Foundation
 class ParseAPI: HTTP {
     var session_id: String?
     var account_key: String?
-    var locations: [StudentInformation]?
+    var locations: StudentLocations
     
     struct Constants {
         static let BaseURLSecure: String = "https://api.parse.com/1"
@@ -31,8 +31,13 @@ class ParseAPI: HTTP {
         static let OrderKey = "order"
     }
     
+    override init(){
+        self.locations = StudentLocations.sharedInstance()
+        super.init()
+    }
+    
     func logout(){
-        locations = nil
+        locations.clear()
         session_id = nil
         account_key = nil
     }
@@ -43,11 +48,6 @@ class ParseAPI: HTTP {
     
     func getLocations(completionHandler: (data: [StudentInformation]?, error: NSError?) -> Void){
         let url = ParseAPI.Methods.StudentLocations
-        
-        /*if let locations = self.locations {
-            completionHandler(data: locations, error: nil)
-            return
-        }*/
         
         let params: [String: AnyObject] = [
             ParseAPI.Keys.LimitKey: ParseAPI.Constants.Limit,
@@ -76,7 +76,7 @@ class ParseAPI: HTTP {
             }
             
             locations.sortInPlace({ $0.updatedAt.compare($1.updatedAt) == .OrderedDescending })
-            self.locations = locations
+            self.locations.update(locations)
             completionHandler(data: locations, error: nil)
         }
     }

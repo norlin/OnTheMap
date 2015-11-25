@@ -14,6 +14,7 @@ class MapViewController: UIViewController, MKMapViewDelegate {
     @IBOutlet var mapView: GSView!
     @IBOutlet weak var map: MKMapView!
     let parseAPI = ParseAPI.sharedInstance()
+    let locations = StudentLocations.sharedInstance()
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -43,7 +44,7 @@ class MapViewController: UIViewController, MKMapViewDelegate {
     
     func updateMap(){
         //MKPointAnnotation
-        guard let locations = parseAPI.locations else {
+        guard let locations = locations.locations else {
             return
         }
         
