@@ -128,16 +128,19 @@ class AddViewController: UIViewController, UITextFieldDelegate {
                 Util.showAlert(self, msg: "Can't draw the location!")
                 return
             }
+            
             annotation.coordinate = coords
             self.coords = coords
             self.mapString = location
             self.locationPreview.addAnnotation(annotation)
             self.updateState()
             Util.hideLoader(loader)
+            let span = MKCoordinateSpan(latitudeDelta: 0.1, longitudeDelta: 0.1)
+            let region: MKCoordinateRegion = MKCoordinateRegion(center: coords, span: span)
             
             dispatch_async(dispatch_get_main_queue()){
                 self.locationPreview.hidden = false
-                self.locationPreview.setCenterCoordinate(coords, animated: true)
+                self.locationPreview.setRegion(region, animated: true)
             }
         }
     }
