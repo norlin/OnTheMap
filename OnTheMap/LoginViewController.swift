@@ -7,8 +7,9 @@
 //
 
 import UIKit
+import FBSDKLoginKit
 
-class LoginViewController: UIViewController {
+class LoginViewController: UIViewController, FBSDKLoginButtonDelegate {
 
     @IBOutlet var loginView: GSView!
     @IBOutlet weak var loginButton: UIButton!
@@ -16,10 +17,21 @@ class LoginViewController: UIViewController {
     @IBOutlet weak var passText: UITextField!
     @IBOutlet weak var msgLabel: UILabel!
     
+    @IBOutlet weak var customFBButton: UIButton!
+    
     let udacityAPI = UdacityAPI.sharedInstance()
+    let parseAPI = ParseAPI.sharedInstance()
     
     override func viewDidLoad() {
         super.viewDidLoad()
+        let fbButton = FBSDKLoginButton(frame: customFBButton.frame)
+        fbButton.readPermissions = ["public_profile"]
+        fbButton.delegate = self
+        if let token = FBSDKAccessToken.currentAccessToken() {
+            self.login(token.tokenString)
+        }
+        customFBButton.hidden = true
+        self.view.addSubview(fbButton)
     }
     
     override func viewDidAppear(animated: Bool) {
@@ -54,22 +66,24 @@ class LoginViewController: UIViewController {
         }
         
         loginButton.enabled = false
-        udacityAPI.session(login, password: pass){success, msg in
-            if (success){
-                dispatch_async(dispatch_get_main_queue()){
-                    self.onLogin()
-                }
-            } else {
-                let message = msg == nil ? "Error happened" : msg!
-                
-                dispatch_async(dispatch_get_main_queue()){
-                    self.msgLabel.text = message
-                    Util.showAlert(self, title: "Login failed!", msg: message)
-                }
-            }
+        udacityAPI.session(login, password: pass, completion: onSession)
+    }
+    
+    private func onSession(success: Bool, msg: String?){
+        if (success){
             dispatch_async(dispatch_get_main_queue()){
-                self.loginButton.enabled = true
+                self.onLogin()
             }
+        } else {
+            let message = msg == nil ? "Error happened" : msg!
+            
+            dispatch_async(dispatch_get_main_queue()){
+                self.msgLabel.text = message
+                Util.showAlert(self, title: "Login failed!", msg: message)
+            }
+        }
+        dispatch_async(dispatch_get_main_queue()){
+            self.loginButton.enabled = true
         }
     }
     
@@ -79,6 +93,50 @@ class LoginViewController: UIViewController {
             self.loginView.activate(){
                 dispatch_async(dispatch_get_main_queue()){
                     self.navigationController?.pushViewController(dest, animated: true)
+                }
+            }
+        }
+    }
+    
+    func login(token: String){
+        udacityAPI.session(token){success, msg in
+            if (!success){
+                FBSDKLoginManager().logOut()
+                self.udacityAPI.isFacebook = false
+            } else {
+                self.udacityAPI.isFacebook = true
+            }
+            self.onSession(success, msg: msg)
+        }
+    }
+    
+    func loginButton(loginButton: FBSDKLoginButton!, didCompleteWithResult result: FBSDKLoginManagerLoginResult!, error: NSError!) {
+        if (error != nil) {
+            Util.showAlert(self, title: "Facebook Login", msg: "\(error.description)")
+        }
+        
+        if (result.isCancelled){
+            print("login cancelled")
+            return
+        }
+        
+        if let token = result.token {
+            self.login(token.tokenString)
+        } else {
+            Util.showAlert(self, title: "Facebook Login", msg: "Can't get Udacity session!")
+        }
+    }
+    
+    func loginButtonDidLogOut(loginButton: FBSDKLoginButton!) {
+        udacityAPI.logout(){success, msg in
+            if (success){
+                self.parseAPI.logout()
+                dispatch_async(dispatch_get_main_queue()){
+                    self.navigationController?.popToRootViewControllerAnimated(true)
+                }
+            } else {
+                dispatch_async(dispatch_get_main_queue()){
+                    Util.showAlert(self, msg: "Can't logout: \(msg)")
                 }
             }
         }

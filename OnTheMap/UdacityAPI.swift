@@ -7,15 +7,19 @@
 //
 
 import Foundation
+import FBSDKLoginKit
 
 class UdacityAPI: HTTP {
     var session_id: String?
     var account_key: String?
+    var isFacebook = false
     var user: [String: AnyObject]?
     
     struct Constants {
         static let BaseURLSecure: String = "https://www.udacity.com/api"
         static let ApiKey = "12342352453"
+        static let FacebookAppID = "365362206864879"
+        static let FacebookScheme = "onthemap"
     }
     
     struct Methods {
@@ -69,7 +73,48 @@ class UdacityAPI: HTTP {
         }
     }
     
+    func session(accessToken: String, completion: ((success: Bool, msg: String?) -> Void)?){
+        let data = ["facebook_mobile": ["access_token": accessToken]]
+        let url = UdacityAPI.Methods.Session
+        
+        self.post(url, jsonBody: data){(res, err) -> Void in
+            if let cb = completion {
+                print(err)
+                if res == nil {
+                    cb(success: false, msg: err?.userInfo[NSLocalizedDescriptionKey] as? String)
+                    return
+                }
+                
+                if let data = res as? NSDictionary {
+                    print(data)
+                    if let err = data.valueForKey(UdacityAPI.Keys.Error) as? String {
+                        cb(success: false, msg: err)
+                        return
+                    }
+                    let session = data.valueForKey(UdacityAPI.Keys.Session) as! NSDictionary
+                    self.session_id = session.valueForKey(UdacityAPI.Keys.SessionId) as? String
+                    let account = data.valueForKey(UdacityAPI.Keys.Account) as! NSDictionary
+                    self.account_key = account.valueForKey(UdacityAPI.Keys.AccountKey) as? String
+                    if (self.session_id != nil && self.account_key != nil){
+                        cb(success: true, msg: "Success")
+                    } else {
+                        cb(success: false, msg: "Can't get account data!")
+                    }
+                }
+
+            }
+        }
+    }
+    
     func logout(completion: ((success: Bool, msg: String?) -> Void)?){
+        if (isFacebook){
+            FBSDKLoginManager().logOut()
+            self.isFacebook = false
+            if let cb = completion {
+                cb(success: true, msg: "Success")
+            }
+            return
+        }
         let url = UdacityAPI.Methods.Session
         let (urlString, _) = prepareParams(url, parameters: [String:AnyObject]())
         let nsurl = NSURL(string: urlString)!

@@ -7,6 +7,7 @@
 //
 
 import UIKit
+import FBSDKLoginKit
 
 class TabBarController: UITabBarController {
     let udacityAPI = UdacityAPI.sharedInstance()
@@ -40,6 +41,8 @@ class TabBarController: UITabBarController {
     }
     
     func logout(sender: UIBarButtonItem){
+        let fbManager = FBSDKLoginManager()
+        FBSDKLoginManager().logOut()
         logoutButton.enabled = false
         udacityAPI.logout(){success, msg in
             if (success){
