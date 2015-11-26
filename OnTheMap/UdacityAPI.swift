@@ -79,14 +79,12 @@ class UdacityAPI: HTTP {
         
         self.post(url, jsonBody: data){(res, err) -> Void in
             if let cb = completion {
-                print(err)
                 if res == nil {
                     cb(success: false, msg: err?.userInfo[NSLocalizedDescriptionKey] as? String)
                     return
                 }
                 
                 if let data = res as? NSDictionary {
-                    print(data)
                     if let err = data.valueForKey(UdacityAPI.Keys.Error) as? String {
                         cb(success: false, msg: err)
                         return
